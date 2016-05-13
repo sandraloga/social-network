@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+
 /**
  * Write a description of class NewsFeed here.
  * 
@@ -7,7 +8,6 @@ import java.util.ArrayList;
  */
 public class NewsFeed
 {
-    // instance variables - replace the example below with your own
     private ArrayList<MessagePost> messages;
     private ArrayList<PhotoPost> photos;
 
@@ -16,38 +16,39 @@ public class NewsFeed
      */
     public NewsFeed()
     {
-        // initialise instance variables
-       messages = new ArrayList<>();
-       photos = new ArrayList<>();
+        messages = new ArrayList<>();
+        photos = new ArrayList<>();
     }
 
     /**
+     * Add a post with a message
      * 
-     * añade un mensaje al array de mensajes
+     * @message the message to introduce
      */
     public void addMessagePost(MessagePost message)
     {
         messages.add(message);
-        
     }
+
     /**
-     * añade una foto al array de fotos
+     * Add a post with a image
+     * 
+     * @message the image to introduce
      */
     public void addPhotoPost(PhotoPost photo)
     {
         photos.add(photo);
     }
+    
     /**
-     * 
+     * Show the post
      */
-    public void show()
-    {
-        for(int i = 0; i < messages.size(); i++){
-            System.out.println(messages.get(i));
+    public void show(){
+        for(MessagePost message : messages){
+            message.display();
         }
-        
-        for(int i = 0; i < photos.size(); i++){
-            System.out.println(photos.get(i));
+        for(PhotoPost photo : photos){
+            photo.display();
         }
     }
 }

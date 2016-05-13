@@ -7,7 +7,6 @@ import java.util.ArrayList;
  */
 public class MessagePost
 {
-    // instance variables - replace the example below with your own
     private String username;
     private String message;
     private long timestamp;
@@ -17,89 +16,79 @@ public class MessagePost
     /**
      * Constructor for objects of class MessagePost
      */
-    public MessagePost(String author , String text)
+    public MessagePost(String author, String text)
     {
-        username = author;
-        message= text;
-        likes = 0;
-        comments = new ArrayList<>();
-        timestamp = System.currentTimeMillis();
-        // initialise instance variables
-
+       this.username = author;
+       this.message = text;
+       this.timestamp = System.currentTimeMillis();
+       likes = 0;
+       comments = new ArrayList<>();
     }
 
     /**
-     * contador de "Me gusta"
+     * Metodo para dar un like.
      */
-    public void like()
-    {
+    public void like(){
         likes++;
     }
-
+    
     /**
-     * contador de "No me gusta"
+     * Metodo para quitar un like en caso de que los haya.
      */
-    public void unlike()
-    {
-        likes--;
+    public void unlike(){
+        if(likes != 0)
+           likes--; 
     }
-
+    
     /**
-     * añade comentario al arraylist
+     * Metodo para añadir un comentario al post
      */
-    public void addComment(String text)
-    {
+    public void addComment(String text){
         comments.add(text);
     }
-
+    
     /**
-     * devuekve el mensaje
+     * Metodo que devuelve el mensaje del post
      */
-    public String getText()
-    {
+    public String getText(){
         return message;
     }
-
+    
     /**
-     * devuelve el tiempo transcurrido desde 1970
+     * Metodo que devuelve la estampa de tiempo en el momento de crear el post
      */
-    public long getTimeStamp()
-    {
-        return (System.currentTimeMillis()-timestamp)/1000;
+    public long getTimeStamp(){
+        return timestamp;
     }
-
+    
     /**
-     * mmustra todos los datos
+     * Metodo que muestra toda la info del post
      */
-    public void display()
-    {
-        System.out.println("DATOS DEL MENSAJE");
-        System.out.println("==================");
-        System.out.println("Autor: " + username);
-        System.out.println("Mensaje: " + message);
-        System.out.println ("Nº likes: " + likes);
-        System.out.println ( "Duracion del mensaje: " 
-            + getTimeStamp()/60 + " minutos " + getTimeStamp()%60 + " segundos");
-        if (comments.size() == 0) {
-            System.out.println("Este mensaje no tiene comentarios");
-        }
-        else {
-            System.out.println("Comentarios: ");
-            for (int i = 0; i < comments.size(); i++) {
-                System.out.println(comments.get(i));
-            }
-
-        }
+    public void display(){
+        String info = "";
+        long time = System.currentTimeMillis() - getTimeStamp();
+        info += username + "\n=====================\n" + "Posted: ";
+        info += timeString(time);
+        info += "=====================\n" + getText() + "\n";
+        info += "_____________________\nLikes: " + likes + "\n=====================\n\n";
+        if(comments.size() != 0)
+            for(int i=0; i<comments.size(); i++)
+                info += comments.get(i) + "\n_____________________\n";
+        else
+            info += "Sin comentarios";
+        System.out.println(info);
     }
-
+    
     /**
-     * muestra por pantalla tiempo trascurrido desde 1970 hasta ahora
+     * Metodo para pasar el tiempo a minutos y segundos.
      */
-    public String timeString(long time)
-    {
-        long minutos = (getTimeStamp() /60);
-        long segundos = (getTimeStamp() %60);
-        String timeString = "Segundos: " + segundos + " Minutos: " + minutos;
-        return timeString;
+    private String timeString(long time){
+        String info = "";
+        int sec =  (int)(time / 1000) % 60;
+        int min =  (int)((time / (1000*60)) % 60);
+        if(min > 0)
+            info += min + " Minutes, ";
+        info += sec + " Seconds\n";
+        return info;
     }
 }

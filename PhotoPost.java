@@ -1,104 +1,104 @@
 import java.util.ArrayList;
 /**
- * Write a description of class PhotoPost here.
+ * Write a description of class MessagePost here.
  * 
  * @author (your name) 
  * @version (a version number or a date)
  */
 public class PhotoPost
 {
-    // instance variables - replace the example below with your own
     private String username;
     private String filename;
     private String caption;
+    private long timestamp;
     private int likes;
-    private long timeStamp;
     private ArrayList<String> comments;
 
     /**
-     * Constructor for objects of class PhotoPost
+     * Constructor for objects of class MessagePost
      */
-    public PhotoPost(String autor , String filname , String caption)
+    public PhotoPost(String author, String filename, String caption)
     {
-        username = autor;
-        this.filename = filename;
-        this.caption = caption;
-        likes = 0;
-        timeStamp = System.currentTimeMillis();
-        comments = new ArrayList<>();
+       this.username = author;
+       this.filename = filename;
+       this.timestamp = System.currentTimeMillis();
+       this.caption = caption;
+       likes = 0;
+       comments = new ArrayList<>();
     }
 
     /**
-     * contador de "Me gusta"
+     * Metodo para dar un like.
      */
-    public void like()
-    {
+    public void like(){
         likes++;
     }
-
+    
     /**
-     * contador de "no me gusta"
+     * Metodo para quitar un like en caso de que los haya.
      */
-    public void unlike()
-    {
-        likes--;
+    public void unlike(){
+        if(likes != 0)
+           likes--; 
     }
-
+    
     /**
-     * añade un comentario al arraylist
+     * Metodo para añadir un comentario al post
      */
-    public void addCommnet(String text)
-    {
+    public void addComment(String text){
         comments.add(text);
     }
-
+    
     /**
-     * devuelve el nombre del archivo
+     * Meotdo que devuelve el nombre del archivo
      */
-    public String getImageFile()
-    {
+    public String getImageFile(){
         return filename;
     }
-
+    
     /**
-     * devuelve la cabecera de la foto
-     * 
+     * Metodo que devuelve el mensaje del post
      */
-    public String getCaption()
-    {
+    public String getCaption(){
         return caption;
     }
-
+    
     /**
-     * tiempo trascurido desde 1970
+     * Metodo que devuelve la estampa de tiempo en el momento de crear el post
      */
-    public long getTimeStamp()
-    {
-        return (System.currentTimeMillis()- timeStamp)/1000;
+    public long getTimeStamp(){
+        return timestamp;
     }
-
+    
     /**
-     * mustra todos los datos de la foto
+     * Metodo que muestra toda la info del post
      */
-    public void display()
-    {
-        System.out.println("DATOS DEL MENSAJE");
-        System.out.println("==================");
-        System.out.println("Autor: " + username);
-        System.out.println("Nombre foto: " + filename);
-        System.out.println ("Nº likes: " + likes);
-        System.out.println ( "Cabecera: " +  caption);
-
+    public void display(){
+        String info = "";
+        long time = System.currentTimeMillis() - getTimeStamp();
+        info += username + "\n=====================\n" + "Posted: ";
+        info += timeString(time);
+        info += getImageFile() + "\n";
+        info += getCaption() + "\n";
+        info += "_____________________\nLikes: " + likes + "\n=====================\n\n";
+        if(comments.size() != 0)
+            for(int i=0; i<comments.size(); i++)
+                info += comments.get(i) + "\n_____________________\n";
+        else
+            info += "Sin comentarios";
+        System.out.println(info);
     }
-
+    
     /**
-     * texto del tiempo transcurrido
+     * Metodo para pasar el tiempo a minutos y segundos.
      */
-    public String timeString(long time)
-    {
-        long minutos = (getTimeStamp() /60);
-        long segundos = (getTimeStamp() %60);
-        String timeString = "Segundos: " + segundos + " mMnutos: " + minutos;
-        return timeString;
+    private String timeString(long time){
+        String info = "";
+        int sec =  (int)(time / 1000) % 60;
+        int min =  (int)((time / (1000*60)) % 60);
+        if(min > 0)
+            info += min + " Minutes, ";
+        info += sec + " Seconds\n";
+        return info;
     }
 }
